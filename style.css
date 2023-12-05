@@ -1,0 +1,199 @@
+/* ========= RESET ========= */
+* {
+	box-sizing: border-box;
+	text-rendering: optimizeLegibility;
+}
+
+html,
+body,
+div,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: inherit;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* ========= ========= ========= */
+:root {
+	--bg1: rgb(170, 127, 71);
+	--bg2: #f3f3ea;
+	--fg1: #222;
+	--fg2: #613410;
+	--links1: #173333;
+	--links2: #ffffff;
+
+}
+
+body {
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	color: var(--fg1);
+	background: var(--bg1);
+}
+
+p {
+	line-height: normal;
+	margin: 15px 0;
+	font-size: 16px;
+}
+
+a {
+	color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+	color: var(--fg2);
+	font-weight: bold;
+	margin-block-start: 0em;
+	margin-block-end: 0em;
+	margin-inline-start: 0px;
+	margin-inline-end: 0px;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+h3 {
+	font-size: 1.35em;
+}
+
+h4 {
+	font-size: 1.2em;
+}
+
+/* ========= ========= ========= */
+
+.grid-item,
+button,
+a {
+	border-radius: 3px;
+}
+
+#logo {
+	background: var(--bg2);
+	text-align: center;
+	padding: 20px;
+	font-style: italic;
+	font-weight: bold;
+	font-size: 2em;
+}
+
+#nav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+	text-align: center;
+}
+
+#nav li {
+	display: inline-block;
+}
+
+#nav li a {
+	display: block;
+	color: var(--bg2);
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-weight: 400;
+	font-size: 15px;
+}
+
+#nav li a:hover {
+	background-color: #111;
+}
+
+/* ========= ========= ========= */
+
+#grid-outer {
+	width: 100%
+}
+
+#grid {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.grid-item {
+	display: inline-block;
+	margin: 15px;
+	padding: 15px;
+	max-width: 600px;
+	width: 100%;
+	background-color: var(--bg2);
+}
+
+
+/* form ========= ========= ========= */
+
+fieldset {
+	border: none !important;
+	margin: 10px 0 10px;
+	padding: 0;
+	width: 100%;
+}
+
+input,
+textarea {
+	width: 100%;
+	border: 1px solid #ccc;
+	background: #fff;
+	margin: 0 0 5px;
+	padding: 10px;
+}
+
+input:focus,
+textarea:focus {
+	outline: 1;
+	border: 1px solid var(--fg2);
+}
+
+button[type="submit"] {
+	cursor: pointer;
+	width: 100%;
+	border: none;
+	background: var(--bg1);
+	color: var(--bg2);
+	margin: 0 0 5px;
+	padding: 10px;
+	font-size: 15px;
+}
+
+button[type="submit"]:hover {
+	box-shadow: inset 0 0 3px 3px var(--fg2);
+	transition: background-color 0.3s ease-in-out;
+}
+
+/* more options ========= ========= ========= */
+
+#more-dots a {
+	color: var(--links1);
+	text-decoration: none;
+	text-align: right;
+	width: 100%;
+	display: block;
+	margin-bottom: 10px;
+}
+
+/* ========= ========= ========= */

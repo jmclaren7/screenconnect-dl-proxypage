@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Remote Support</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css?family=Open Sans" rel="stylesheet" />
+  <link href="style.css" type="text/css" rel="stylesheet" />
+  <script>
+    // setup ... expansion
+    function ShowMore(moreBtn, targetID) {
+      var moreContainer = document.getElementById(targetID);
+      var moreBtnContainer = moreBtn.parentNode;
+
+      // if originalBtnText is not set, save the current button text
+      if (typeof originalBtnText === "undefined") {
+        originalBtnText = moreBtn.innerHTML;
+      }
+
+      if (window.getComputedStyle(moreContainer).display === "none") {
+        moreContainer.style.display = "inline";
+        moreBtnContainer.style.display = "inline";
+        moreBtn.innerHTML = "...";
+      } else {
+        moreContainer.style.display = "none";
+        moreBtnContainer.style.display = "inline";
+        moreBtn.innerHTML = originalBtnText;
+      }
+    }
+  </script>
+</head>
+
+<body>
+  <div id="logo"><span>Company Name</span></div>
+  <div id="nav">
+    <ul>
+      <li><a href="">Remote Support</a></li>
+    </ul>
+  </div>
+
+  <div id="grid-outer">
+    <div id="grid">
+      <div class="grid-item">
+        <h2>Remote Support</h2>
+        <p>If you were send here for the purpose of remote technical support, please follow these instructions.</p>
+        <ol>
+          <li>Download the program using the button below.</li>
+          <li>Run the file and approve any prompts requesting permission to run.</li>
+          <li>That's it, when the install is complete it will close automatically.</li>
+        </ol>
+
+        <form id="download" action="proxy.php" method="get">
+          <fieldset>
+            <span id="more" style="display: none;">
+              <input name="client" placeholder="Client (optional)" type="text" />
+              <input name="name" placeholder="Hostname (optional)" type="text" autofocus />
+              <input name="type" placeholder="Type (optional)" type="text" />
+              <input name="location" placeholder="Location (optional)" type="text" />
+              <input name="users" placeholder="Users (optional)" type="text" />
+              <input name="notes" placeholder="Notes (optional)" type="text" />
+
+              <script>
+                var buttons = [
+                  { name: 'ext', value: 'exe', type: 'submit', id: 'contact-submit', text: 'Download For Windows' },
+                  { name: 'ext', value: 'pkg', type: 'submit', id: 'contact-submit', text: 'Download For macOS (.pkg)' },
+                  { name: 'ext', value: 'msi', type: 'submit', id: 'contact-submit', text: 'Download For Windows (.msi)' },
+                  { name: 'ext', value: 'deb', type: 'submit', id: 'contact-submit', text: 'Download For Linux (.deb)' }
+                ];
+
+                var userExt = "exe";
+                if (navigator.userAgent.indexOf("Mac") != -1) userExt = "pkg";
+                if (navigator.userAgent.indexOf("Linux") != -1) userExt = "deb";
+
+                // display the buttons that don't match the user's OS and save the one that does
+                for (var i = 0; i < buttons.length; i++) {
+                  thisBtn = '<button name="' + buttons[i].name + '" value="' + buttons[i].value + '" type="' + buttons[i].type + '" id="' + buttons[i].id + '">' + buttons[i].text + '</button>';
+
+                  if (buttons[i].value != userExt) {
+                    document.write(thisBtn);
+                  } else {
+                    userBtn = thisBtn
+                  }
+                }
+              </script>
+            </span>
+
+            <script>
+              // display the button that matches the user's OS
+              document.write(userBtn);
+            </script>
+
+            <span id="more-dots"><a href="javascript:void(0);" onclick="ShowMore(this, 'more')">more
+                options...</a></span>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
