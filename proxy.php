@@ -1,4 +1,7 @@
 <?PHP
+// Disable sending error messages to the browser
+ini_set('display_errors', '0');
+
 // These are the URL parameters used by the form to initiate the download
 // Set these to match what you use in the form and on the ScreenConnect server
 // get("<parameter name>", "<default>");
@@ -16,7 +19,7 @@ $Extension = get("ext", "exe"); // The name can be changed to match the form but
 // This is your URL normally used to download the file from the ScreenConnect server
 // This URL needs to be accessible by the webserver running this script but not by the user trying to download the client
 // This allows users to access the client download use this script while the ScreenConnect server is behind a firewall
-$URL = "https://sc-server/Bin/ScreenConnect.ClientSetup.exe?e=Access&y=Guest&c=1&c=2&c=3&c=4&c=5&c=&c=&c=";
+$AccessURL = "http://sc-server/Bin/ScreenConnect.ClientSetup.exe?e=Access&y=Guest&c=&c=&c=&c=&c=&c=&c=&c=";
 
 // Set a filename for the download
 $FileName = "RemoteSupport.$Extension";
@@ -29,16 +32,23 @@ if (!in_array($Extension, array("exe", "msi", "pkg", "deb"))) {
 }
 
 // Remove all the 'c' parameters in URL
-$URL = preg_replace('/&c=[^&]*/', '', $URL);
+$AccessURL = preg_replace('/&c=[^&]*/', '', $AccessURL);
 
-// Replace the file extension in URL with the correct one
-$URL = preg_replace('/\.[^\.]*$/', ".$Extension", $URL);
+// Replace .exe? in $AccessURL with the extension from $Extension
+$AccessURL = preg_replace('/\.exe\?/', ".$Extension?", $AccessURL);
 
 // Add parameters to URL
-$URL .= "&t=$Name&c=$Custom1&c=$Custom2&c=$Custom3&c=$Custom4&c=$Custom5&c=$Custom6&c=$Custom7&c=$Custom8";
+$AccessURL .= "&t=$Name&c=$Custom1&c=$Custom2&c=$Custom3&c=$Custom4&c=$Custom5&c=$Custom6&c=$Custom7&c=$Custom8";
 
 // Download the file from the ScreenConnect server
-$File = file_get_contents($URL);
+ini_set('default_socket_timeout', 6);
+$File = file_get_contents($AccessURL);
+
+// If the file could not be downloaded then return a 500 error
+if ($File === false) {
+    http_response_code(500);
+    exit("Error: Could not download file");
+}
 
 // If headers have already been sent then an error occurred before this point
 If (headers_sent()) { exit("Error: Headers already sent"); }
