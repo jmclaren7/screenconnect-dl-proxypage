@@ -7,14 +7,15 @@ require_once 'config.php';
 
 // Limit the possible values for Extension
 if (!in_array($Extension, array("exe", "msi", "pkg", "deb"))) {
-    exit("Error: Invalid input");
+    http_response_code(500);
+    exit("Error: Invalid extension");
 }
-
-// Remove all the 'c' parameters in URL
-$AccessURL = preg_replace('/&c=[^&]*/', '', $AccessURL);
 
 // Replace .exe? in $AccessURL with the extension from $Extension
 $AccessURL = preg_replace('/\.exe\?/', ".$Extension?", $AccessURL);
+
+// Remove all the 'c' parameters in URL
+$AccessURL = preg_replace('/&c=[^&]*/', '', $AccessURL);
 
 // Add parameters to URL
 $AccessURL .= "&t=$Name&c=$Custom1&c=$Custom2&c=$Custom3&c=$Custom4&c=$Custom5&c=$Custom6&c=$Custom7&c=$Custom8";
@@ -36,20 +37,26 @@ If (headers_sent()) { exit("Error: Headers already sent"); }
 header("Content-Type: application/octet-stream");
 header("Content-Disposition: attachment; filename=$FileName");
 header("Content-Length: " . strlen($File));
+header("Content-Transfer-Encoding: binary");
 
 // Send the file to the browser
 echo $File;
 
 // Check GET variable and return default if not set
-function get($var, $def)
+function get($value, $default)
 {
-    if (empty($_GET[$var])) {
-        return $def;
+    if (empty($_GET[$value])) {
+        return $default;
     } else {
-        $string = $_GET[$var];
+        $string = $_GET[$value];
 
-        // Do some things to sanitize the input
+        // Limit the length of the string
         $string = substr($string, 0, 30);
+        // Remove backticks, quotes, semi-colons, brackets, and braces
+        $string = preg_replace('/[`"\'\(\)\[\]\{\};]/', '', $string);
+        // Remove leading and trailing whitespace
+        $string = trim($string);
+        // Encode the string for use in a URL
         $string = urlencode($string);
 
         return $string;
